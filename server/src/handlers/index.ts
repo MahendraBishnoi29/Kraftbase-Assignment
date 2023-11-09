@@ -1,4 +1,4 @@
-import { UserModel } from "db/users";
+import { UserModel } from "../db/users";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";

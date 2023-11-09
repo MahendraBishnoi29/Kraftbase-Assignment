@@ -1,11 +1,12 @@
-import { login, register } from "controllers/auth";
-import { UserModel } from "db/users";
+import { login, register } from "../controllers/auth";
+import { UserModel } from "../db/users.ts";
 import express from "express";
 import { body } from "express-validator";
-import { validate, verifyToken } from "handlers";
-const router = express.Router();
+import { validate, verifyToken } from "../handlers";
 
-router.post(
+export const authRouter = express.Router(); // Change 'router' to 'authRouter'
+
+authRouter.post(
   "/signup",
   body("username")
     .isLength({ min: 8 })
@@ -27,7 +28,7 @@ router.post(
   register
 );
 
-router.post(
+authRouter.post(
   "/login",
   body("username")
     .isLength({ min: 8 })
@@ -39,9 +40,7 @@ router.post(
   login
 );
 
-router.post("/verify-token", verifyToken, (req, res) => {
+authRouter.post("/verify-token", verifyToken, (req, res) => {
   //@ts-ignore
   res.status(200).json({ user: req.user });
 });
-
-module.exports = router;
