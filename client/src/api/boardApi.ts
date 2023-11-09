@@ -5,6 +5,7 @@ const boardApi = {
   getAllBoards: () => axiosClient.get("boards"),
   updateBoardPosition: (params: any) => axiosClient.put("boards", params),
   getSingleBoard: (id: string) => axiosClient.get(`boards/${id}`),
+  deleteBoard: (id: string) => axiosClient.delete(`boards/${id}`),
   updateBoard: (id: any, params: any) =>
     axiosClient.put(`boards/${id}`, params),
   getFavouriteBoards: () => axiosClient.get("boards/favouriteBoards"),

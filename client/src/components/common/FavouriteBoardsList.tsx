@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import boardApi from "../../api/boardApi";
 import { setFavouriteList } from "../../features/board/favouriteSlice";
+import { toast } from "react-toastify";
 
 const FavouriteList = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,8 @@ const FavouriteList = () => {
       try {
         const res = await boardApi.getFavouriteBoards();
         dispatch(setFavouriteList(res));
-      } catch (err) {
-        alert(err);
+      } catch (err: any) {
+        toast.error(err);
       }
     };
     getBoards();

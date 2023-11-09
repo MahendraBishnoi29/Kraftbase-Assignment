@@ -11,16 +11,18 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import boardApi from "../api/boardApi";
 import EmojiPicker from "../components/common/EmojiPicker";
 import { setBoards } from "../features/board/boardSlice";
+import { setFavouriteList } from "../features/board/favouriteSlice";
 
 let timer: NodeJS.Timeout | undefined;
 
 const Board = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { boardId } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState([]);
@@ -30,6 +32,8 @@ const Board = () => {
 
   //@ts-ignore
   const boards = useSelector((state) => state.board.value);
+  //@ts-ignore
+  const favouriteList = useSelector((state) => state.favourites.value);
 
   const getBoard = async () => {
     try {
@@ -97,6 +101,28 @@ const Board = () => {
     }
   };
 
+  const deleteBoard = async () => {
+    try {
+      await boardApi.deleteBoard(boardId as string);
+      if (isFavourite) {
+        const newFavouriteList = favouriteList.filter(
+          (e: any) => e.id !== boardId
+        );
+        dispatch(setFavouriteList(newFavouriteList));
+      }
+
+      const newList = boards.filter((e: any) => e.id !== boardId);
+      if (newList.length === 0) {
+        navigate("/boards");
+      } else {
+        navigate(`/boards/${newList[0].id}`);
+      }
+      dispatch(setBoards(newList));
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   useEffect(() => {
     getBoard();
   }, [boardId]);
@@ -117,7 +143,7 @@ const Board = () => {
           )}
         </IconButton>
         {/* @ts-ignore */}
-        <IconButton variant="outline" color="error">
+        <IconButton variant="outline" color="error" onClick={deleteBoard}>
           <DeleteOutlinedIcon />
         </IconButton>
       </Box>
