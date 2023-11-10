@@ -59,7 +59,7 @@ const Sidebar = () => {
   const onDragEnd = async ({ source, destination }) => {
     const newList = [...boards];
     const [removed] = newList.splice(source.index, 1);
-    newList.splice(destination.index, 0, removed);
+    newList.splice(destination?.index, 0, removed);
 
     const activeItem = newList.findIndex((e) => e.id === boardId);
     setActiveIndex(activeItem);

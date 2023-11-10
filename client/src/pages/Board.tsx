@@ -17,6 +17,7 @@ import boardApi from "../api/boardApi";
 import EmojiPicker from "../components/common/EmojiPicker";
 import { setBoards } from "../features/board/boardSlice";
 import { setFavouriteList } from "../features/board/favouriteSlice";
+import Kanban from "../components/common/Kanban";
 
 let timer: NodeJS.Timeout | undefined;
 
@@ -194,6 +195,9 @@ const Board = () => {
             </Typography>
           </Box>
           <Divider sx={{ margin: "10px 0px" }} />
+        </Box>
+        <Box>
+          <Kanban data={section} boardId={boardId} />
         </Box>
       </Box>
     </>
